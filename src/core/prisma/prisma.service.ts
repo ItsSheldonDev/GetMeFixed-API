@@ -28,12 +28,22 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
   async cleanDatabase() {
     if (process.env.NODE_ENV !== 'production') {
-      const models = Reflect.ownKeys(this).filter(
-        (key) => key[0] !== '_' && key[0] !== '$' && typeof this[key] === 'object',
-      );
+      // Version corrigée pour éviter l'erreur de type "symbol" avec TypeScript strict
+      const modelNames = Object.keys(this)
+        .filter(key => {
+          return !key.startsWith('_') && 
+                 !key.startsWith('$') && 
+                 typeof this[key as keyof this] === 'object';
+        });
   
       return Promise.all(
-        models.map((modelKey) => this[modelKey].deleteMany()),
+        modelNames.map(modelName => {
+          const model = this[modelName as keyof this] as any;
+          if (model && typeof model.deleteMany === 'function') {
+            return model.deleteMany();
+          }
+          return Promise.resolve();
+        }),
       );
     }
   }
