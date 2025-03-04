@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  notifications Notification[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LicensePlan {
+  id          String    @id @default(uuid())
+  name        String
+  identifier  String    @unique
+  tokens      Int
+  description String?
+  price       Float
+  isActive    Boolean   @default(true)
+  features    Json?     @default("{}")
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  licenses    License[]
+}
+
+model License {
+  id              String          @id @default(uuid())
+  key             String          @unique
+  status          String          @default("ACTIVE")
+  planId          String
+  expirationDate  DateTime
+  tokensRemaining Int
+  customerId      String?
+  metadata        Json?           @default("{}")
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  plan            LicensePlan     @relation(fields: [planId], references: [id])
+  pluginLicenses  PluginLicense[]
+  licenseUsages   LicenseUsage[]
+  notifications Notification[]
+}
+
+model Plugin {
+  id             String          @id @default(uuid())
+  name           String
+  identifier     String          @unique
+  description    String?
+  isActive       Boolean         @default(true)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  versions       PluginVersion[]
+  pluginLicenses PluginLicense[]
+}
+
+model PluginVersion {
+  id             String          @id @default(uuid())
+  pluginId       String
+  version        String
+  description    String?
+  price          Float           @default(0)
+  isActive       Boolean         @default(true)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  plugin         Plugin          @relation(fields: [pluginId], references: [id], onDelete: Cascade)
+  pluginLicenses PluginLicense[]
+
+  @@unique([pluginId, version])
+}
+
+model PluginLicense {
+  id             String        @id @default(uuid())
+  licenseId      String
+  pluginId       String
+  versionId      String
+  expirationDate DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  license        License       @relation(fields: [licenseId], references: [id], onDelete: Cascade)
+  plugin         Plugin        @relation(fields: [pluginId], references: [id], onDelete: Cascade)
+  version        PluginVersion @relation(fields: [versionId], references: [id], onDelete: Cascade)
+
+  @@unique([licenseId, pluginId])
+}
+
+model LicenseUsage {
+  id        String   @id @default(uuid())
+  licenseId String
+  action    String
+  machine_id String
+  tokens    Int?
+  metadata  Json?    @default("{}")
+  createdAt DateTime @default(now())
+  license   License  @relation(fields: [licenseId], references: [id], onDelete: Cascade)
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  type      String
+  message   String
+  adminId   String
+  licenseId String?
+  metadata  Json?    @default("{}")
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  admin   Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  license License? @relation(fields: [licenseId], references: [id], onDelete: SetNull)
+}

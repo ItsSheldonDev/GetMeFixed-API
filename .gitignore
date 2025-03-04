@@ -1,0 +1,31 @@
+# Dépendances
+node_modules/
+
+# Fichiers de build
+dist/
+build/
+
+# Environnement
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Répertoires temporaires
+tmp/
+temp/
+
+# Données locales
+emails/
+
+# IDEs et éditeurs
+.idea/
+.vscode/
+*.sublime-*

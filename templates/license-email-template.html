@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Votre licence GetMeFixed</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      text-align: center;
+      padding: 20px 0;
+      border-bottom: 1px solid #eaeaea;
+    }
+    .header img {
+      max-width: 200px;
+      height: auto;
+    }
+    .content {
+      padding: 20px 0;
+    }
+    .license-key {
+      background-color: #f5f7f9;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      padding: 15px;
+      margin: 20px 0;
+      font-family: monospace;
+      font-size: 18px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    .details {
+      margin: 20px 0;
+      border: 1px solid #e1e4e8;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .details-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .details-table td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e1e4e8;
+    }
+    .details-table tr:last-child td {
+      border-bottom: none;
+    }
+    .details-table td:first-child {
+      font-weight: bold;
+      width: 40%;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px 0;
+      color: #6c757d;
+      font-size: 14px;
+      border-top: 1px solid #eaeaea;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #4a6cf7;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    .note {
+      background-color: #fff8e1;
+      border-left: 4px solid #ffc107;
+      padding: 15px;
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    @media (max-width: 600px) {
+      .container {
+        width: 100%;
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>GetMeFixed</h1>
+    </div>
+    <div class="content">
+      <h2>Merci pour votre achat !</h2>
+      <p>Cher(e) {{customerName}},</p>
+      <p>Nous vous remercions d'avoir choisi GetMeFixed. Votre paiement a été traité avec succès et votre licence est maintenant active.</p>
+      
+      <p>Voici votre clé de licence :</p>
+      <div class="license-key">{{licenseKey}}</div>
+      
+      <div class="details">
+        <table class="details-table">
+          <tr>
+            <td>Plan</td>
+            <td>{{planName}}</td>
+          </tr>
+          <tr>
+            <td>Jetons inclus</td>
+            <td>{{tokens}} jetons</td>
+          </tr>
+          <tr>
+            <td>Date d'expiration</td>
+            <td>{{expirationDate}}</td>
+          </tr>
+        </table>
+      </div>
+      
+      <div class="note">
+        <strong>Important :</strong> Conservez cette clé de licence en lieu sûr. Elle sera nécessaire pour activer et utiliser le logiciel.
+      </div>
+      
+      <p>Pour commencer à utiliser votre licence :</p>
+      <ol>
+        <li>Ouvrez le logiciel GetMeFixed</li>
+        <li>Allez dans les paramètres</li>
+        <li>Cliquez sur "Activer la licence"</li>
+        <li>Entrez votre clé de licence</li>
+      </ol>
+      
+      <p style="text-align: center;">
+        <a href="{{documentationUrl}}" class="button">Accéder à la documentation</a>
+      </p>
+      
+      <p>Si vous avez des questions ou besoin d'assistance, n'hésitez pas à contacter notre équipe de support.</p>
+      
+      <p>Cordialement,<br>L'équipe GetMeFixed</p>
+    </div>
+    <div class="footer">
+      <p>© {{currentYear}} GetMeFixed. Tous droits réservés.</p>
+      <p>Ce message a été envoyé à {{customerEmail}}</p>
+    </div>
+  </div>
+</body>
+</html>
